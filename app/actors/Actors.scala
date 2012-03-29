@@ -8,7 +8,7 @@ import message._
 
 class SecurityGuard extends Actor {
     def receive = {
-        case _ => sender ! RegisterUser("Bob")
+        case Authenticate(user,password) => sender ! RegisterUser(user)
+        case _ => sender ! Failure
     }
 }
-
