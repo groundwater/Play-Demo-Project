@@ -1,5 +1,6 @@
 @()(implicit flash: play.api.mvc.Flash)
 @views.html.site {
+<h1>Please Log In</h1>
 <div id="message">@flash.get("message")</div>
 <form id="form-login" action="/login" method="POST">
     <input type="text"     name="userid"   id="userid"/>

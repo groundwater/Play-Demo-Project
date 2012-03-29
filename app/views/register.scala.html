@@ -1,5 +1,6 @@
 @()(implicit flash: play.api.mvc.Flash)
 @views.html.site {
+<h1>Please Register</h1>
 <div id="message">@flash.get("message")</div>
 <form id="form-register" action="/register" method="POST">
     <input type="text"     name="userid"   id="userid"/>

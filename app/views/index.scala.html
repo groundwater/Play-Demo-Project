@@ -1,7 +1,7 @@
 @()(implicit flash: play.api.mvc.Flash, user: User = Anonymous)
 @views.html.site {
+<h1>Welcome @user.uid</h1>
 <div id="message">@flash.get("message")</div>
-<div id="body">Welcome @user.uid</div>
 <div id="menu">
     <ol>
         <li><a href="/login">Login</a></li>

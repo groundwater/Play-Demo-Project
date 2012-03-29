@@ -11,3 +11,5 @@ GET     /register                   controllers.MainContext.application.register
 POST    /register                   controllers.MainContext.security.register
 POST    /login                      controllers.MainContext.security.login
 GET     /logout                     controllers.MainContext.security.logout
+
+GET     /assets/*file               controllers.Assets.at(path="/public",file)
