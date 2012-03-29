@@ -31,8 +31,8 @@ class Security(guard: ActorRef) extends Controller {
         )
     )
     
-    def login = UnAuthenticated{ Action { implicit request =>
-        
+    def login = Action { implicit request =>
+        Logger.info("Anonymous User Authenticating")
         loginForm.bindFromRequest.fold (
             errors => BadRequest,
             {
@@ -49,7 +49,7 @@ class Security(guard: ActorRef) extends Controller {
                 case _ => InternalServerError("500.101")
             }
         )
-    }}
+    }
     
     def register = Action {
         Logger.info("User Registration")

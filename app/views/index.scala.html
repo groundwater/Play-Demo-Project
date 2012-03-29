@@ -1,5 +1,5 @@
-@()(implicit flash: play.api.mvc.Flash)
+@()(implicit flash: play.api.mvc.Flash, user: User = Anonymous)
 @views.html.site {
 <div id="message">@flash.get("message")</div>
-<div id="body">Welcome</div>
+<div id="body">Welcome @user.uid</div>
 }
