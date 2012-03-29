@@ -5,6 +5,7 @@
 # Home page
 GET     /                           controllers.MainContext.application.index
 GET     /login                      controllers.MainContext.application.login
+GET     /register                   controllers.MainContext.application.register
 
 # Authentication and Security
 POST    /register                   controllers.MainContext.security.register

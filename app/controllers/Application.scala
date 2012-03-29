@@ -51,9 +51,28 @@ class Security(guard: ActorRef) extends Controller {
         )
     }
     
-    def register = Action {
+    val registrationForm = Form(
+        tuple(
+            "userid"   -> text,
+            "password" -> text
+        )
+    )
+    
+    def register = Action { implicit request =>
         Logger.info("User Registration")
-        TODO
+        registrationForm.bindFromRequest.fold (
+            errors => BadRequest,
+            {
+                case (user,password) => Async{
+                    implicit val timeout = Timeout(5 seconds)
+                    new AkkaPromise(guard ? Register(user,password)) map {
+                        case Success => Redirect("/").flashing("message"->"Thank you for registering.")
+                        case _ => InternalServerError("500.102")
+                    }
+                }
+                case _ => InternalServerError("500.103")
+            }
+        )
     }
     
     def logout = Action { implicit request =>
@@ -75,6 +94,9 @@ class Application extends Controller {
     }
     def login = Action { implicit request =>
         Ok( views.html.login() )
+    }
+    def register = Action { implicit request =>
+        Ok( views.html.register() )
     }
 }
 

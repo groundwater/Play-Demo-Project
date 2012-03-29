@@ -1,0 +1,9 @@
+@()(implicit flash: play.api.mvc.Flash)
+@views.html.site {
+<div id="message">@flash.get("message")</div>
+<form id="form-register" action="/register" method="POST">
+    <input type="text"     name="userid"   id="userid"/>
+    <input type="password" name="password" id="password"/>
+    <input type="submit"   name="submit"   id="submit" value="Loging"/>
+</form>
+}
