@@ -27,9 +27,9 @@ case class UnAuthenticated[A](action: Action[A]) extends Action[A] {
     lazy val parser = action.parser
 }
 
-trait AnyAction[A] extends Action[A]
-object AnyAction {
-    def apply[A] (bodyParser: BodyParser[A]) (block: User => Request[A] => Result ) = new AnyAction[A] {
+trait AnyAuthenticated[A] extends Action[A]
+object AnyAuthenticated {
+    def apply[A] (bodyParser: BodyParser[A]) (block: User => Request[A] => Result ) = new AnyAuthenticated[A] {
         def parser = bodyParser
         def apply(req: Request[A]) = {
             val user = req.session.get("user") match {
@@ -40,6 +40,6 @@ object AnyAction {
         }
     }
     def apply (block: User => Request[AnyContent] => Result): Action[AnyContent] = {
-        AnyAction(BodyParsers.parse.anyContent)(block)
+        AnyAuthenticated(BodyParsers.parse.anyContent)(block)
     }
 }

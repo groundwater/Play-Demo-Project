@@ -67,7 +67,7 @@ trait SecurityContext {
 }
 
 class Application extends Controller {
-    def index = AnyAction { implicit user => 
+    def index = AnyAuthenticated { implicit user => 
         Action { implicit request =>
             Logger.info("Accessed by User: " + user)
             Ok( views.html.index() )
