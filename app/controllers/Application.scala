@@ -66,25 +66,8 @@ trait SecurityContext {
     lazy val security = new Security(guard)
 }
 
-trait AnyAction[A] extends Action[A]
-object AnyAction {
-    def apply[A] (bodyParser: BodyParser[A]) (block: User => Request[A] => Result ) = new AnyAction[A] {
-        def parser = bodyParser
-        def apply(req: Request[A]) = {
-            val user = req.session.get("user") match {
-                case Some(uid) => User(uid)
-                case _ => Anonymous
-            }
-            block(user)(req)
-        }
-    }
-    def apply (block: User => Request[AnyContent] => Result): Action[AnyContent] = {
-        AnyAction(BodyParsers.parse.anyContent)(block)
-    }
-}
-
 class Application extends Controller {
-    def index = AnyAction { user => 
+    def index = AnyAction { implicit user => 
         Action { implicit request =>
             Logger.info("Accessed by User: " + user)
             Ok( views.html.index() )

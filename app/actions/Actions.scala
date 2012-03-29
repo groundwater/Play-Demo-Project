@@ -27,4 +27,19 @@ case class UnAuthenticated[A](action: Action[A]) extends Action[A] {
     lazy val parser = action.parser
 }
 
-
+trait AnyAction[A] extends Action[A]
+object AnyAction {
+    def apply[A] (bodyParser: BodyParser[A]) (block: User => Request[A] => Result ) = new AnyAction[A] {
+        def parser = bodyParser
+        def apply(req: Request[A]) = {
+            val user = req.session.get("user") match {
+                case Some(uid) => User(uid)
+                case _ => Anonymous
+            }
+            block(user)(req)
+        }
+    }
+    def apply (block: User => Request[AnyContent] => Result): Action[AnyContent] = {
+        AnyAction(BodyParsers.parse.anyContent)(block)
+    }
+}
