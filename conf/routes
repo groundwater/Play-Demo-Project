@@ -1,0 +1,12 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.MainContext.application.index
+GET     /login                      controllers.MainContext.application.login
+
+# Authentication and Security
+POST    /register                   controllers.MainContext.security.register
+POST    /login                      controllers.MainContext.security.login
+GET     /logout                     controllers.MainContext.security.logout
