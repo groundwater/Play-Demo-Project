@@ -19,7 +19,7 @@ import models._
 
 import play.api.Play.current
 import play.api.mvc.Security.Authenticated
-
+import play.api.i18n.Messages
 import play.libs.Akka.system
 
 class Security(guard: ActorRef) extends Controller {
@@ -41,8 +41,8 @@ class Security(guard: ActorRef) extends Controller {
                     new AkkaPromise(guard ? Authenticate(user,password)) map {
                         case RegisterUser(id) => 
                             Logger.info("User {id} Authenticated")
-                            Redirect("/").withSession("user"->id).flashing("message"->"You have successfully logged in.")
-                        case Failure => Unauthorized("General Failure")
+                            Redirect("/").withSession("user"->id).flashing("message"->Messages("login.success"))
+                        case Failure => Unauthorized(Messages("login.failure"))
                         case _ => InternalServerError("500.011")
                     }
                 }
@@ -57,7 +57,7 @@ class Security(guard: ActorRef) extends Controller {
     }
     
     def logout = Action { implicit request =>
-        Redirect( "/" ).withSession( session - "user" ).flashing("message"->"You have successfully logged out.")
+        Redirect( "/" ).withSession( session - "user" ).flashing("message"->Messages("logout.success"))
     }
 }
 

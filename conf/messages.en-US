@@ -1,0 +1,3 @@
+login.success=You have successfully logged in.
+login.failure=Sorry, you were not authenticated.
+logout.success=You have successfully logged out.
